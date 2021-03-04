@@ -1,6 +1,12 @@
 #include "habitantes.h"
 
-
+/**
+ * Insere um habitante na cabeca da lista de habitantes
+ * Entrada: lista e dados do habitante a serem inseridos
+ * Retorno: lista alterada
+ * Pré-condição: nenhuma
+ * Pós-condição: elemento é inserido na lista de habitantes
+ */
 ListaHabitantes* inserirHabitante(ListaHabitantes* l, DadosHabitante dados){
     ListaHabitantes* aux = (ListaHabitantes*) malloc(sizeof(ListaHabitantes));
     strcpy(aux->habitante.cpf, dados.cpf);
@@ -19,6 +25,13 @@ ListaHabitantes* inserirHabitante(ListaHabitantes* l, DadosHabitante dados){
     return aux;
 }
 
+/**
+ * Remove um habitante da lista de habitantes
+ * Entrada: cpf do habitante a ser removido e lista
+ * Retorno: lista alterada
+ * Pré-condição: nenhuma
+ * Pós-condição: elemento é removido da lista de habitantes
+ */
 ListaHabitantes* removerHabitante(char *cpf, ListaHabitantes* l){
     ListaHabitantes* ant = l;
     ListaHabitantes* prox = l;
@@ -37,6 +50,14 @@ ListaHabitantes* removerHabitante(char *cpf, ListaHabitantes* l){
     return l;
 }
 
+
+/**
+ * Consulta um habitante da lista
+ * Entrada: cpf do habitante a ser consultado e lista
+ * Retorno: dados do habitante se ele for encontrado ou NULL caso contrário
+ * Pré-condição: nenhuma
+ * Pós-condição: nenhuma
+ */
 DadosHabitante* consultarHabitante(char *cpf, ListaHabitantes *l){
     while(l != NULL && (strcmp(cpf, l->habitante.cpf) != 0)){
         l = l->pprox;
@@ -45,6 +66,13 @@ DadosHabitante* consultarHabitante(char *cpf, ListaHabitantes *l){
     return NULL;
 }
 
+/**
+ * Altera os dados de um habitante na lista
+ * Entrada: cpf do habitante, lista e dados novos a serem inseridos no habitante
+ * Retorno: lista alterada
+ * Pré-condição: nenhuma
+ * Pós-condição: o habitante é alterado
+ */
 ListaHabitantes* alterarHabitante(char *cpf, ListaHabitantes *l, DadosHabitante habitante){
     DadosHabitante *aux;
     aux = consultarHabitante(cpf, l);
