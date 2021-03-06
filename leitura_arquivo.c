@@ -91,5 +91,6 @@ ListaHabitantes* lerArquivo(ListaHabitantes *l, char *caminhoArquivo){
             l = inserirHabitante(l, novoHabitante);
         }
     }
+    else printf("Arquivo nao encontrado.\n");
     return l;
 }

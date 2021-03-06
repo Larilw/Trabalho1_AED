@@ -1,6 +1,7 @@
 #ifndef LEITURA_ARQUIVO_H
 #define LEITURA_ARQUIVO_H
 #include <stdio.h>
+#include "habitantes.h"
 
 /**
  * Realiza a leitura de um arquivo texto linha por linha e insere na lista os habitantes presentes no arquivo 
