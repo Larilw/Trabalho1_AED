@@ -48,13 +48,14 @@
  */
 void MenuPrincipal(ListaHabitantes *listaHabitante, ListaVacinas *listaVacina) {
     int seletor;
+    int grupoPrioritario = 0;
 
     /*
     printf("--------------------------------------------------------------------------------\n");
     printf("                              Menu Principal\n");
     printf("--------------------------------------------------------------------------------\n\n");
     */
-    PrintMessage("                              Menu Principal");
+    PrintMessage("Menu Principal", 'c', 1, 1);
     printf("Entre com o numero da operacao desejada\n\n");
     printf("%d - Cadastro de habitantes\n", MMENU_HABITANTE);
     printf("%d - Cadastro de Vacinas\n", MMENU_VACINA);
@@ -70,7 +71,7 @@ void MenuPrincipal(ListaHabitantes *listaHabitante, ListaVacinas *listaVacina) {
         case MMENU_VACINA:
             MenuVacina(listaHabitante, listaVacina);
         case MMENU_VACINACAO:
-            MenuVacinacao(listaVacina);
+            MenuVacinacao(listaHabitante, listaVacina, &grupoPrioritario);
         case MMENU_RELATORIO:
             MenuRelatorio(listaHabitante);
         case CANCELAR:
@@ -139,15 +140,15 @@ void MenuInserirHabitanteManual(ListaHabitantes *listaHabitantes, ListaVacinas *
     LerHabitante(&dados);
     if (listaHabitantes == NULL || (consultarHabitante(dados.cpf, listaHabitantes) == NULL)) {
         listaHabitantes = inserirHabitante(listaHabitantes, dados);
-        PrintMessage("Cadastrado.");
+        PrintMessage("Cadastrado.", 'd', 1, 1);
     }
     else {
-        PrintMessage("CPF ja cadastrado.");
+        PrintMessage("CPF ja cadastrado.", 'd', 1, 1);
     }
 
     PrintMessage("Deseja cadastrar outro habitante?\n"
-                     "0 - Nao\n"
-                     "1 - Sim");
+                 "0 - Nao\n"
+                 "1 - Sim", 'd', 1, 1);
     int seletor = LerIntervaloInteiro(0,1);
 
     switch (seletor) {
@@ -174,14 +175,14 @@ void MenuInserirHabitanteArquivo(ListaHabitantes *listaHabitante, ListaVacinas *
 {
     char arquivo [TAM_MAX_STR];
 
-    PrintMessage("Entre com o caminho do arquivo.");
+    PrintMessage("Entre com o caminho do arquivo.", 'd', 1, 1);
     LerString(arquivo, 1);
 
     listaHabitante = lerArquivo(listaHabitante, arquivo);
 
     PrintMessage("Deseja cadastrar outra lista de habitantes?\n"
-                    "0 - Nao\n"
-                    "1 - Sim");
+                 "0 - Nao\n"
+                 "1 - Sim", 'd', 1, 1);
     int seletor = LerIntervaloInteiro(0,1);
 
     switch (seletor) {
@@ -209,21 +210,21 @@ void MenuConsultarHabitante(ListaHabitantes *listaHabitante, ListaVacinas *lista
     DadosHabitante *aux;
     char cpf[TAM_MAX_STR];
 
-    PrintMessage("Entre com o cpf que deseja consultar");
+    PrintMessage("Entre com o cpf que deseja consultar", 'd', 1, 1);
     LerString(cpf, 1);
 
     aux = consultarHabitante(cpf, listaHabitante);
     if (listaHabitante != NULL && aux != NULL) {
-        PrintMessage("Habitante:");
+        PrintMessage("Habitante:", 'd', 1, 1);
         printf("CPF: %s\n", aux->cpf);
     }
     else {
-        PrintMessage("CPF nao encontrado");
+        PrintMessage("CPF nao encontrado", 'd', 1, 1);
     }
 
     PrintMessage("Deseja consultar outro habitante?\n"
-                     "0 - Nao\n"
-                     "1 - Sim");
+                 "0 - Nao\n"
+                 "1 - Sim", 'd', 1, 1);
     int seletor = LerIntervaloInteiro(0,1);
 
     switch (seletor) {
@@ -251,30 +252,30 @@ void MenuRemoverHabitante(ListaHabitantes *listaHabitantes, ListaVacinas *listaV
     DadosHabitante *aux;
     char cpf[TAM_MAX_STR];
 
-    PrintMessage("Entre com o cpf que deseja remover");
+    PrintMessage("Entre com o cpf que deseja remover", 'd', 1, 1);
     LerString(cpf, 1);
 
     aux = consultarHabitante(cpf, listaHabitantes);
     if (listaHabitantes != NULL && aux != NULL) {
-        PrintMessage("Habitante:");
+        PrintMessage("Habitante:", 'd', 1, 1);
         printf("CPF: %s\n", aux->cpf);
 
         PrintMessage("Confirme a remocao do habitante.\n"
-                         "0 - Nao\n"
-                         "1 - Sim");
+                     "0 - Nao\n"
+                     "1 - Sim", 'd', 1, 1);
         int confirmacao = LerIntervaloInteiro(0, 1);
         if (confirmacao == 1) {
             removerHabitante(aux->cpf, listaHabitantes);
-            PrintMessage("habitante removido.");
+            PrintMessage("habitante removido.", 'd', 1, 1);
         }
     }
     else {
-        PrintMessage("CPF nao encontrado");
+        PrintMessage("CPF nao encontrado", 'd', 1, 1);
     }
 
     PrintMessage("Deseja remover outro habitante?\n"
-                     "0 - Nao\n"
-                     "1 - Sim");
+                 "0 - Nao\n"
+                 "1 - Sim", 'd', 1, 1);
     int seletor = LerIntervaloInteiro(0,1);
 
     switch (seletor) {
@@ -331,15 +332,15 @@ void MenuCadastrarVacina (ListaHabitantes *listaHabitante, ListaVacinas *listaVa
     LerVacina(&dados);
     if (listaVacina == NULL || (consultarVacina(listaVacina, dados.tipo) == NULL)) {
         listaVacina = inserirVacina(listaVacina, dados);
-        PrintMessage("Vacina cadastrada.");
+        PrintMessage("Vacina cadastrada.", 'd', 1, 1);
     }
     else {
-        PrintMessage("Vacina ja cadastrada.");
+        PrintMessage("Vacina ja cadastrada.", 'd', 1, 1);
     }
 
     PrintMessage("Deseja cadastrar outra Vacina?\n"
                  "0 - Nao\n"
-                 "1 - Sim");
+                 "1 - Sim", 'd', 1, 1);
     int seletor = LerIntervaloInteiro(0,1);
 
     switch (seletor) {
@@ -361,11 +362,11 @@ void MenuInserirEstoque (ListaHabitantes *listaHabitante, ListaVacinas *listaVac
     DadosVacina *aux;
     char vacina [TAM_MAX_STR];
 
-    PrintMessage("Entre com o nome da vacina que deseja alterar o estoque");
+    PrintMessage("Entre com o nome da vacina que deseja alterar o estoque", 'd', 1, 1);
     LerString(vacina, 1);
     aux = consultarVacina(listaVacina, vacina);
     if (listaVacina != NULL && aux != NULL) {
-        PrintMessage("Alteracao de estoque");
+        PrintMessage("Alteracao de estoque", 'd', 1, 1);
         printf("Estoque da vacina %s: %d\n", aux->tipo, aux->estoque);
         dados = *aux;
         LerVacinaEstoque(&dados);
@@ -375,16 +376,16 @@ void MenuInserirEstoque (ListaHabitantes *listaHabitante, ListaVacinas *listaVac
             printf("Novo estoque da vacina %s: %d\n", aux->tipo, aux->estoque);
         }
         else {
-            PrintMessage("Valor de estoque invalido");
+            PrintMessage("Valor de estoque invalido", 'd', 1, 1);
         }
     }
     else {
-        PrintMessage("Vacina nao encontrada.");
+        PrintMessage("Vacina nao encontrada.", 'd', 1, 1);
     }
 
-    PrintMessage("Deseja altera o estoque de outra vacina?\n"
+    PrintMessage("Deseja alterar o estoque de outra vacina?\n"
                  "0 - Nao\n"
-                 "1 - Sim");
+                 "1 - Sim", 'd', 1, 1);
     int seletor = LerIntervaloInteiro(0,1);
 
     switch (seletor) {
@@ -402,36 +403,34 @@ void MenuInserirEstoque (ListaHabitantes *listaHabitante, ListaVacinas *listaVac
 
 void MenuRemoverVacina (ListaHabitantes *listaHabitante, ListaVacinas *listaVacina)
 {
-    DadosVacina dados;
     DadosVacina *aux;
     char vacina [TAM_MAX_STR];
 
-
-    PrintMessage("Entre com o nome da vacina que deseja remover");
+    PrintMessage("Entre com o nome da vacina que deseja remover", 'd', 1, 1);
     LerString(vacina, 1);
 
     aux = consultarVacina(listaVacina, vacina);
     if (listaVacina != NULL && aux != NULL) {
-        PrintMessage("Vacina:");
-        printf("Nome da vacina: %s\n", aux->tipo);
+        PrintMessage("Nome da vacina:", 'd', 1, 0);
+        printf("- %s\n", aux->tipo);
 
         PrintMessage("Confirme a remocao da vacina.\n"
                      "0 - Nao\n"
-                     "1 - Sim");
+                     "1 - Sim", 'd', 1, 1);
         int confirmacao = LerIntervaloInteiro(0, 1);
         if (confirmacao == 1) {
             /* alterar funcao */
             limparListaVacinas(listaVacina);
-            PrintMessage("Vacina removida.");
+            PrintMessage("Vacina removida.", 'd', 1, 1);
         }
     }
     else {
-        PrintMessage("Vacina nao encontrada");
+        PrintMessage("Vacina nao encontrada", 'd', 1, 1);
     }
 
     PrintMessage("Deseja remover outro habitante?\n"
                  "0 - Nao\n"
-                 "1 - Sim");
+                 "1 - Sim", 'd', 1, 1);
     int seletor = LerIntervaloInteiro(0,1);
 
     switch (seletor) {
@@ -440,21 +439,17 @@ void MenuRemoverVacina (ListaHabitantes *listaHabitante, ListaVacinas *listaVaci
         case CANCELAR:
             MenuVacina(listaHabitante, listaVacina);
         default:
-            printf("--------------------------------------------------------------------------------\n");
-            printf("O valor digitado nao corresponde a nenhuma das operacoes\n");
-            printf("--------------------------------------------------------------------------------\n");
+            PrintMessage("O valor digitado nao corresponde a nenhuma das operacoes", 'd', 1, 1);
             MenuVacina(listaHabitante, listaVacina);
     }
 }
 
-void MenuVacinacao (ListaVacinas *listaVacina)
+void MenuVacinacao(ListaHabitantes *listaHabitante, ListaVacinas *listaVacina, int *grupoPrioritario)
 {
     int seletor;
 
-    printf("--------------------------------------------------------------------------------\n");
-    printf("                          Registro de Vacinacao\n");
-    printf("--------------------------------------------------------------------------------\n\n");
-    printf("Entre com o numero da operacao desejada\n\n");
+    PrintMessage("Gerenciamento de Vacinacao", 'c', 1, 1);
+    printf("Entre com o numero da operacao desejada\n");
     printf("%d - Liberacao de grupo prioritario\n", MVACINACAO_LIBERARGRUPO);
     printf("%d - Registrar vacinacao\n", MVACINACAO_REGISTRO);
     printf("%d - Voltar\n", CANCELAR);
@@ -463,16 +458,119 @@ void MenuVacinacao (ListaVacinas *listaVacina)
 
     switch (seletor) {
         case MVACINACAO_LIBERARGRUPO:
+            MenuLiberarPrioritario(listaHabitante, listaVacina, grupoPrioritario);
         case MVACINACAO_REGISTRO:
-        case MHABITANTE_REMOVER:
-            break;
+            MenuRegistrarVacinacao(listaHabitante, listaVacina, grupoPrioritario);
         case CANCELAR:
-            MenuPrincipal(NULL, listaVacina);
+            MenuPrincipal(listaHabitante, listaVacina);
+        default:
+            PrintMessage("O valor digitado nao corresponde a nenhuma das operacoes", 'd', 1, 1);
+            MenuVacinacao(listaHabitante, listaVacina, grupoPrioritario);
+    }
+}
+
+void MenuLiberarPrioritario (ListaHabitantes *listaHabitante, ListaVacinas *listaVacina, int *grupoPrioritario)
+{
+    PrintMessage("Liberacao de grupo prioritario.", 'd', 1, 0);
+    printf("Grupo prioritario atual: %d\n", *grupoPrioritario);
+    PrintMessage("Confirme a liberacao do grupo proximo grupo prioritario\n"
+                 "0 - Nao\n"
+                 "1 - Sim", 'd', 1, 0);
+    int confirmacao = LerIntervaloInteiro(0, 1);
+    if (confirmacao == 1) {
+        *grupoPrioritario+=1;
+        PrintMessage("Grupo liberado", 'd', 1, 1);
+        printf("Grupo prioritario atual: %d\n", *grupoPrioritario);
+    }
+
+    PrintMessage("Deseja liberar outro grupo prioritario?\n"
+                 "0 - Nao\n"
+                 "1 - Sim", 'd', 1, 0);
+
+    int seletor = LerIntervaloInteiro(0,1);
+
+    switch (seletor) {
+        case CONFIMAR:
+            MenuLiberarPrioritario(listaHabitante, listaVacina, grupoPrioritario);
+        case CANCELAR:
+            MenuVacinacao(listaHabitante, listaVacina, grupoPrioritario);
+        default:
+            PrintMessage("O valor digitado nao corresponde a nenhuma das operacoes", 'd', 1, 1);
+            MenuVacinacao(listaHabitante, listaVacina, grupoPrioritario);
+    }
+}
+
+void MenuRegistrarVacinacao (ListaHabitantes *listaHabitante, ListaVacinas *listaVacina, int *grupoPrioritario)
+{
+    DadosHabitante *auxHabitante;
+    DadosVacina *auxVacina;
+    char cpf[TAM_MAX_STR];
+    char vacina[TAM_MAX_STR];
+
+    PrintMessage("Registro de vacinacao.", 'd', 1, 0);
+    printf("Grupo prioritario atual: %d", *grupoPrioritario);
+    PrintMessage("", 'd', 0, 1);
+
+    PrintMessage("Entre com o cpf do habitante que deseja vacinar.", 'd', 1, 1);
+    LerString(cpf, 1);
+
+    auxHabitante = consultarHabitante(cpf, listaHabitante);
+    if (listaHabitante != NULL && auxHabitante != NULL) {
+        PrintMessage("Habitante:", 'd', 1, 0);
+        printf("CPF: %s\n", auxHabitante->cpf);
+        printf("Nome: %s\n", auxHabitante->nome);
+        printf("Dose: %d\n", auxHabitante->dose);
+        printf("Vacina: %s\n", auxHabitante->tipo_vacina);
+        printf("Grupo prioritario: %d\n", auxHabitante->prioridade);
+
+        if (auxHabitante->dose >= 2){
+            PrintMessage("Habitante ja recebeu as 2 doses da vacina.", 'd', 1, 0);
+        }
+        else if (auxHabitante->prioridade <= *grupoPrioritario && auxHabitante->dose == 0) {
+            PrintMessage("Entre com o nome da vacina", 'd', 1, 0);
+            LerString(vacina, 1);
+            auxVacina = consultarVacina(listaVacina, vacina);
+            if (listaVacina != NULL && auxVacina != NULL && auxVacina->estoque > 0) {
+                auxHabitante->dose++;
+                PrintMessage("Habitante Vacinado.", 'd', 1, 1);
+            }
+            else {
+                PrintMessage("Sem Estoque da vacina ou a vacina nao existe.", 'd', 1, 1);
+            }
+        }
+        else if (auxHabitante->prioridade <= *grupoPrioritario && auxHabitante->dose == 1) {
+            auxVacina = consultarVacina(listaVacina, auxHabitante->tipo_vacina);
+            if (listaVacina != NULL && auxVacina != NULL && auxVacina->estoque > 0) {
+                auxHabitante->dose++;
+                PrintMessage("Habitante Vacinado.", 'd', 1, 1);
+            }
+            else {
+                PrintMessage("Sem Estoque da vacina ou a vacina nao existe.", 'd', 1, 1);
+            }
+        }
+        else {
+            PrintMessage("Grupo prioritario do habitante nao foi liberado para vacinacao.", 'd', 1, 1);
+        }
+    }
+    else {
+        PrintMessage("CPF nao encontrado", 'd', 1, 1);
+    }
+
+    PrintMessage("Deseja vacinar outro habitante?\n"
+                 "0 - Nao\n"
+                 "1 - Sim", 'd', 1, 1);
+    int seletor = LerIntervaloInteiro(0,1);
+
+    switch (seletor) {
+        case CONFIMAR:
+            MenuRegistrarVacinacao(listaHabitante, listaVacina, grupoPrioritario);
+        case CANCELAR:
+            MenuVacinacao(listaHabitante, listaVacina, grupoPrioritario);
         default:
             printf("--------------------------------------------------------------------------------\n");
             printf("O valor digitado nao corresponde a nenhuma das operacoes\n");
             printf("--------------------------------------------------------------------------------\n");
-            MenuVacinacao(listaVacina);
+            MenuVacinacao(listaHabitante, listaVacina, grupoPrioritario);
     }
 }
 
@@ -480,9 +578,7 @@ void MenuRelatorio ()
 {
     int seletor;
 
-    printf("--------------------------------------------------------------------------------\n");
-    printf("                                Relatorios\n");
-    printf("--------------------------------------------------------------------------------\n\n");
+    PrintMessage("Relatorios", 'c', 1, 1);
     printf("Entre com o numero da operacao desejada\n\n");
     printf("%d - Numero de doses no estoque por tipo de vacina\n", MRELATORIO_ESTOQUE);
     printf("%d - Lista de habitantes vacinados somente com a 1a dose\n", MRELATORIO_PRIMEIRADOSE);
@@ -504,9 +600,7 @@ void MenuRelatorio ()
             MenuPrincipal(NULL, NULL);
             break;
         default:
-            printf("--------------------------------------------------------------------------------\n");
-            printf("O valor digitado nao corresponde a nenhuma das operacoes\n");
-            printf("--------------------------------------------------------------------------------\n");
+            PrintMessage("O valor digitado nao corresponde a nenhuma das operacoes", 'd', 1, 1);
             MenuRelatorio();
     }
 }
@@ -518,10 +612,31 @@ void MenuRelatorio ()
  * Pré-condição: nenhuma
  * Pos-Condição: nenhuma
  */
-void PrintMessage (char* str)
+void PrintMessage(char *str, char alinhamento, int barraTopo, int barraBase)
 {
-    printf("--------------------------------------------------------------------------------\n");
-    printf("%s\n", str);
-    printf("--------------------------------------------------------------------------------\n");
+    int tamanho = 80;
+    tamanho -= strlen(str);
+
+    if (barraTopo == 1) {
+        printf("--------------------------------------------------------------------------------\n");
+    }
+    if (alinhamento == 'd') {
+        printf("%s\n", str);
+    }
+    else if (alinhamento == 'c') {
+        for (int i = 0; i < tamanho / 2; i++) {
+            printf(" ");
+        }
+        printf("%s\n", str);
+    }
+    else if (alinhamento == 'e') {
+        for (int i = 0; i < tamanho; i++) {
+            printf(" ");
+        }
+        printf("%s\n", str);
+    }
+    if (barraBase == 1) {
+        printf("--------------------------------------------------------------------------------\n");
+    }
 
 }

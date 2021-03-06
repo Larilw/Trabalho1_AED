@@ -22,12 +22,16 @@ void MenuInserirEstoque (ListaHabitantes *listaHabitante, ListaVacinas *listaVac
 
 void MenuRemoverVacina (ListaHabitantes *listaHabitante, ListaVacinas *listaVacina);
 
-void MenuVacinacao (ListaVacinas *listaVacina);
+void MenuVacinacao(ListaHabitantes *listaHabitante, ListaVacinas *listaVacina, int *grupoPrioritario);
+
+void MenuLiberarPrioritario (ListaHabitantes *listaHabitante, ListaVacinas *listaVacina, int *grupoPrioritario);
+
+void MenuRegistrarVacinacao (ListaHabitantes *listaHabitante, ListaVacinas *listaVacina, int *grupoPrioritario);
 
 void MenuRelatorio ();
 
 void MenuPrincipal (ListaHabitantes *listaHabitante, ListaVacinas *listaVacina);
 
-void PrintMessage (char* str);
+void PrintMessage(char *str, char alinhamento, int barraTopo, int barraBase);
 
 #endif //INTERFACE_H

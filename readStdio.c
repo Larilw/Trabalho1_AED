@@ -82,31 +82,31 @@ char LerChar ()
 DadosHabitante * LerHabitante (DadosHabitante *dados)
 {
     char string[TAM_MAX_STR] = "";
-    PrintMessage("Entre com o CPF.");
+    PrintMessage("Entre com o CPF.", 'd', 1, 1);
     LerString(string, 1);
     strcpy(dados->cpf, string);
     strcpy(dados->data_vacinacao, "");
     strcpy(dados->tipo_vacina, "");
-    PrintMessage("Entre com o Telefone.");
+    PrintMessage("Entre com o Telefone.", 'd', 1, 1);
     LerString(string, 0);
     strcpy(dados->telefone, string);
-    PrintMessage("Entre com o endereco.");
+    PrintMessage("Entre com o endereco.", 'd', 1, 1);
     LerString(string, 0);
     strcpy(dados->endereco, string);
-    PrintMessage("Entre com o RG.");
+    PrintMessage("Entre com o RG.", 'd', 1, 1);
     LerString(string, 1);
     strcpy(dados->rg, string);
-    PrintMessage("Entre com o nome.");
+    PrintMessage("Entre com o nome.", 'd', 1, 1);
     LerString(string, 1);
     strcpy(dados->nome, string);
-    PrintMessage("Entre com a profissao.");
+    PrintMessage("Entre com a profissao.", 'd', 1, 1);
     LerString(string, 0);
     strcpy(dados->profissao, string);
-    PrintMessage("Entre com a genero.");
+    PrintMessage("Entre com a genero.", 'd', 1, 1);
     dados->sexo = LerChar();
-    PrintMessage("Entre com a idade.");
+    PrintMessage("Entre com a idade.", 'd', 1, 1);
     dados->idade = LerInteiro();
-    PrintMessage("Entre com a prioridade.");
+    PrintMessage("Entre com a prioridade.", 'd', 1, 1);
     dados->prioridade = LerInteiro();
     dados->dose = 0;
 
@@ -117,11 +117,11 @@ DadosVacina * LerVacina (DadosVacina *dados)
 {
     char string[TAM_MAX_STR] = "";
 
-    PrintMessage("Entre com o nome da vacina.");
+    PrintMessage("Entre com o nome da vacina.", 'd', 1, 1);
     LerString(string, 1);
     strcpy(dados->tipo, string);
 
-    PrintMessage("Entre com a quantidade da vacina.");
+    PrintMessage("Entre com a quantidade da vacina.", 'd', 1, 1);
     dados->estoque = LerInteiro();
 
     return dados;
@@ -129,7 +129,7 @@ DadosVacina * LerVacina (DadosVacina *dados)
 
 DadosVacina * LerVacinaEstoque (DadosVacina *dados)
 {
-    PrintMessage("Entre com a quantidade da vacina que deseja inserir.");
+    PrintMessage("Entre com a quantidade da vacina que deseja inserir.", 'd', 1, 1);
     dados->estoque = LerInteiro();
 
     return dados;
