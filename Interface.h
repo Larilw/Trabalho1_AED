@@ -2,24 +2,31 @@
 #define INTERFACE_H
 
 #include "habitantes.h"
+#include "vacinas.h"
 
-void MenuHabitantes (ListaHabitantes *l);
+void MenuHabitantes (ListaHabitantes *listaHabitante, ListaVacinas *listaVacina);
 
-void MenuInserirHabitanteManual (ListaHabitantes *l);
+void MenuInserirHabitanteManual (ListaHabitantes *listaHabitantes, ListaVacinas *listaVacina);
 
-void MenuConsultarHabitante (ListaHabitantes *l);
+void MenuConsultarHabitante (ListaHabitantes *listaHabitante, ListaVacinas *listaVacina);
 
-void MenuInserirHabitanteArquivo (ListaHabitantes *l);
+void MenuInserirHabitanteArquivo (ListaHabitantes *listaHabitante, ListaVacinas *listaVacina);
 
-void MenuRemoverHabitante (ListaHabitantes *l);
+void MenuRemoverHabitante (ListaHabitantes *listaHabitantes, ListaVacinas *listaVacina);
 
-void MenuVacina ();
+void MenuVacina (ListaHabitantes *listaHabitantes, ListaVacinas *listaVacina);
 
-void MenuVacinacao ();
+void MenuCadastrarVacina (ListaHabitantes *listaHabitante, ListaVacinas *listaVacina);
+
+void MenuInserirEstoque (ListaHabitantes *listaHabitante, ListaVacinas *listaVacina);
+
+void MenuRemoverVacina (ListaHabitantes *listaHabitante, ListaVacinas *listaVacina);
+
+void MenuVacinacao (ListaVacinas *listaVacina);
 
 void MenuRelatorio ();
 
-void MenuPrincipal (ListaHabitantes *l);
+void MenuPrincipal (ListaHabitantes *listaHabitante, ListaVacinas *listaVacina);
 
 void PrintMessage (char* str);
 

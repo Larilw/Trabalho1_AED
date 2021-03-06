@@ -5,6 +5,7 @@
 #include "readStdio.h"
 #include "constantes.h"
 #include "habitantes.h"
+#include "vacinas.h"
 #include "Interface.h"
 
 /**
@@ -111,3 +112,26 @@ DadosHabitante * LerHabitante (DadosHabitante *dados)
 
     return dados;
 }
+
+DadosVacina * LerVacina (DadosVacina *dados)
+{
+    char string[TAM_MAX_STR] = "";
+
+    PrintMessage("Entre com o nome da vacina.");
+    LerString(string, 1);
+    strcpy(dados->tipo, string);
+
+    PrintMessage("Entre com a quantidade da vacina.");
+    dados->estoque = LerInteiro();
+
+    return dados;
+}
+
+DadosVacina * LerVacinaEstoque (DadosVacina *dados)
+{
+    PrintMessage("Entre com a quantidade da vacina que deseja inserir.");
+    dados->estoque = LerInteiro();
+
+    return dados;
+}
+

@@ -10,6 +10,7 @@ int main()
 {
     ListaHabitantes habitantes [TAM_MAX_STR];
     //habitantes = malloc(sizeof(ListaHabitantes));
+    ListaVacinas vacinas [TAM_MAX_STR];
 
     printf("--------------------------------------------------------------------------------\n"
            "        .',         _____                          _           _                     \n"
@@ -32,7 +33,7 @@ int main()
     //printf("Pressione uma tecla para continuar...\n");
     //getchar();
 
-    MenuPrincipal (habitantes);
+    MenuPrincipal(habitantes, vacinas);
 
     return 0;
 }
