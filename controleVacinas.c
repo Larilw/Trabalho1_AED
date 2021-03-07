@@ -4,7 +4,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-
+#include <time.h>
 
 #include "leitura_arquivo.h"
 #include <string.h>
@@ -135,21 +135,22 @@ int verificaVacinaConcluida(DadosHabitante *dadosH){
 
 /**
  * Verifica se existe vacina disponivel no estoque
- * Entrada: lista de vacinas
+ * Entrada: lista de vacinas e dados da vacina
  * Retorno: dados da vacina disponivel ou NULL se nao a vacina disponivel
  * Pré-condição: nenhuma
  * Pós-condição: vacina disponivel para ser aplicada
  */
-DadosVacina* verificaEstoqueVacina(ListaVacinas *l){
+DadosVacina* verificaEstoqueVacina(ListaVacinas *l, DadosVacina *dadosVac){
     //printf("\nTipo da vacina: %s\nEstoque: %d\n",lista->dados.tipo,lista->dados.estoque);
+    printf("Insira o nome da vacina\n");
+    gets(dadosVac->tipo);
 
-    while(l != NULL && (l->dados.estoque == 0)){
-        l = l->pprox;
-    }
+    dadosVac = consultarVacina(l,dadosVac->tipo);
 
-    if(l != NULL) return &l->dados;
-    return NULL;
-
+    if (dadosVac != NULL && dadosVac->estoque > 0)
+        return dadosVac;
+    else
+        return NULL;
 }
 
 /**
@@ -171,6 +172,37 @@ void imprimeVacinas(ListaVacinas *l){
 }
 
 /**
+ * Registra a data atual da vacinacao
+ * Entrada:dados do habitante
+ * Retorno: nenhum
+ * Pré-condição: nenhua
+ * Pós-condição: data atual registrada no dados do habitante
+ */
+void dataAgora(DadosHabitante *dadosH){
+    // Formatar data
+    struct tm *dataAtual;
+    time_t segundos;
+    time(&segundos);
+    dataAtual = localtime(&segundos);
+    char dia[2];
+    char mes[2];
+    char ano[4];
+
+    sprintf(dia, "%i", dataAtual->tm_mday);
+
+    strcpy(dadosH->data_vacinacao,dia);
+    strcat(dadosH->data_vacinacao, "/");
+
+    sprintf(mes, "%i", dataAtual->tm_mon+1);
+
+    strcat(dadosH->data_vacinacao, mes);
+    strcat(dadosH->data_vacinacao, "/");
+
+    sprintf(ano, "%i", dataAtual->tm_year+1900);
+    strcat(dadosH->data_vacinacao, ano);
+}
+
+/**
  * Registra a vacinacao do habitante
  * Entrada: lista de vacinas, dados da vacina e habitante, e o cpf do habitante
  * Retorno: nenhum
@@ -178,46 +210,21 @@ void imprimeVacinas(ListaVacinas *l){
  * Pós-condição: registra que o habitate foi vacinado
  */
 void registrarVacinacao(char *cpf, ListaVacinas *listaV,DadosVacina *dadosVac, DadosHabitante *dadosH){
-
-    printf("\nInsira uma data para a vacinacao: ");
-    scanf("%s",dadosH->data_vacinacao);
+    dataAgora(dadosH);
     strcpy(dadosH->tipo_vacina, dadosVac->tipo);
-    if(dadosH->dose == 0)
-        dadosH->dose = 1;
-    else if(dadosH->dose == 1)
-            dadosH->dose = 2;
+
+    dadosH->dose++;
 
     // Diminui do estoque
     dadosVac->estoque--;
 
     listaV = alterarVacina(listaV, dadosVac, listaV->dados.tipo);
-
-    //teste
-    printf("\nAlteracao:\ntipo vacina H = %s\nestoque = %d\nH = %s\ndose = %d\n",dadosH->tipo_vacina, listaV->dados.estoque,dadosH->nome,dadosH->dose);
-    printf("data = %s\n",dadosH->data_vacinacao);
-
 }
-/*
-void inicializaDadosStructH(DadosHabitante dados){
-    strcpy(dados.nome, "");
-    dados.idade = 0;
-   // strcpy(dados.sexo, "");
-    strcpy(dados.rg, "");
-    strcpy(dados.cpf, "");
-    strcpy(dados.telefone, "");
-    strcpy(dados.endereco, "");
-    strcpy(dados.profissao, "");
-    dados.prioridade = 0;
-    strcpy(dados.data_vacinacao, "");
-    strcpy(dados.tipo_vacina, "");
-    dados.dose = 0;
-}
-*/
+
+
 int main()
 {
-
-    // testes
-
+    //testes
     ListaHabitantes *lista;
     lista = malloc (sizeof (ListaHabitantes));
 
@@ -227,33 +234,6 @@ int main()
 
     DadosHabitante *dados;
     dados = malloc(sizeof(DadosHabitante));
-/**
-
-    // consultar dados e imprimir
-    char cpf[8];
-    strcpy(cpf, "11111111111");
-    dados = consultarHabitante(cpf, lista);
-    printf ("%s \n", dados->cpf);
-
-    //remiver um H
-    printf ("H a remover %s \n", dados->nome);
-    lista = removerHabitante("11111111111",lista);
-
-    dados = consultarHabitante("11111111111", lista);
-    if(dados->nome == NULL) printf("H n existe\n");
-    else printf ("H encontrado: %s \n", dados->nome);
-
-    dados = consultarHabitante("66666666666", lista);
-    if(dados->nome == NULL) printf("H n existe\n");
-    else printf ("H encontrado: %s \n", dados->nome);
-
-
-
-    // Registro de vacinacao
-
-    // Liberer grupo prioritario
-    while(liberaGrupoPrioritario()); **/
-
 
     ListaVacinas *listaVac;
     listaVac = malloc(sizeof(ListaVacinas));
@@ -263,37 +243,59 @@ int main()
 
     DadosVacina dadosV;
 
-    //DadosHabitante dadosHH;
+//    // consultar dados e imprimir
+//    char cpf[8];
+//    strcpy(cpf, "11111111111");
+//    dados = consultarHabitante(cpf, lista);
+//    printf ("%s \n", dados->cpf);
+//
+//    //remiver um H
+//    printf ("H a remover %s \n", dados->nome);
+//    lista = removerHabitante("11111111111",lista);
+//
+//    dados = consultarHabitante("11111111111", lista);
+//    if(dados->nome == NULL) printf("H n existe\n");
+//    else printf ("H encontrado: %s \n", dados->nome);
+//
+//    dados = consultarHabitante("66666666666", lista);
+//    if(dados->nome == NULL) printf("H n existe\n");
+//    else printf ("H encontrado: %s \n", dados->nome);
+//
+
+    // Registro de vacinacao
+
+    // Liberer grupo prioritario
+    // Testes
+    //liberaGrupoPrioritario();
 
 
 
     // Inserir vacina
-
     // Testes
     strcpy(dadosV.tipo,"v1");
-    dadosV.estoque = 12;
+    dadosV.estoque = 2;
 
     listaVac = inserirVacina(listaVac, dadosV);
     if(listaVac == NULL) printf("\nErro ao inserir\n");
 
     strcpy(dadosV.tipo,"v2");
-    dadosV.estoque = 3;
+    dadosV.estoque = 0;
 
     listaVac = inserirVacina(listaVac, dadosV);
     if(listaVac == NULL) printf("\nErro ao inserir\n");
 
     strcpy(dadosV.tipo,"v3");
-    dadosV.estoque = 0;
+    dadosV.estoque = 1;
 
     listaVac = inserirVacina(listaVac, dadosV);
     if(listaVac == NULL) printf("\nErro ao inserir\n");
 
     char cpf[12];
     strcpy(cpf, "55555555555");
-
-
     //..
 
+
+// Parte do registro de vacinacao do habitante //
 
     // Verifica se o habitante esta registrado
     if(verificaHabitanteRegistrado(lista, dados, cpf)){
@@ -313,35 +315,31 @@ int main()
             // Verifica se o habitante ja foi vacinado
             if(verificaVacinaConcluida(dados)){
 
-                /*** Veritfica se a vacina diponivel ***/
-                dadosVac = verificaEstoqueVacina(listaVac);
+                // Veritfica se a vacina esta diponivel
+                dadosVac = verificaEstoqueVacina(listaVac, dadosVac);
                 if(dadosVac == NULL){
-                    printf("N˜ao e possıvel vacinar. Estoque zerado\n");
+                    printf("Nao e possivel vacinar. Estoque zerado\n");
 
                 }else{
-                    //imprimeVacinas(listaVac);
-
                     // Registrar vacinacao
-
                     dados = consultarHabitante(cpf, lista);
-
                     registrarVacinacao(cpf,listaVac,dadosVac, dados);
-                    printf("\nAlteracao:\ntipo = %s\nestoque = %d\nH = %s\ndose = %d\n",dadosVac->tipo, dadosVac->estoque,dados->nome,dados->dose);
-
+                    //teste
+                    printf("\nAlteracao:\ntipo vacina H = %s\nestoque = %d\nH = %s\ndose = %d\n",dados->tipo_vacina, listaVac->dados.estoque,dados->nome,dados->dose);
+                    printf("data = %s\n",dados->data_vacinacao);
                 }
-
             }else{
-                printf("\nHabitante ja vacinado\n");
+                printf("Habitante ja vacinado\n");
             }
         }else{
-            printf("\nO habitante nao pode ser vacinado porque seu grupo nao esta liberado para vacinacao\n");
+            printf("O habitante nao pode ser vacinado porque seu grupo nao esta liberado para vacinacao\n");
         }
     }else
         printf("Habitante nao registrado\n");
 
-
     return 0;
 }
+
 
 
 
