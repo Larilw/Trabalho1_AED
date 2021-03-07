@@ -221,10 +221,15 @@ void registrarVacinacao(char *cpf, ListaVacinas *listaV,DadosVacina *dadosVac, D
     listaV = alterarVacina(listaV, dadosVac, listaV->dados.tipo);
 }
 
+/**
+ * Verifica dados referente a vacinacao
+ * Entrada: string com o cpf do habitante
+ * Retorno: nenhum
+ * Pré-condição: nenhuma
+ * Pós-condição: verificacao dos dados
+ */
+void verificaRegistroVacinacao(char cpf[]){
 
-int main()
-{
-    //testes
     ListaHabitantes *lista;
     lista = malloc (sizeof (ListaHabitantes));
 
@@ -243,58 +248,6 @@ int main()
 
     DadosVacina dadosV;
 
-//    // consultar dados e imprimir
-//    char cpf[8];
-//    strcpy(cpf, "11111111111");
-//    dados = consultarHabitante(cpf, lista);
-//    printf ("%s \n", dados->cpf);
-//
-//    //remiver um H
-//    printf ("H a remover %s \n", dados->nome);
-//    lista = removerHabitante("11111111111",lista);
-//
-//    dados = consultarHabitante("11111111111", lista);
-//    if(dados->nome == NULL) printf("H n existe\n");
-//    else printf ("H encontrado: %s \n", dados->nome);
-//
-//    dados = consultarHabitante("66666666666", lista);
-//    if(dados->nome == NULL) printf("H n existe\n");
-//    else printf ("H encontrado: %s \n", dados->nome);
-//
-
-    // Registro de vacinacao
-
-    // Liberer grupo prioritario
-    // Testes
-    //liberaGrupoPrioritario();
-
-
-
-    // Inserir vacina
-    // Testes
-    strcpy(dadosV.tipo,"v1");
-    dadosV.estoque = 2;
-
-    listaVac = inserirVacina(listaVac, dadosV);
-    if(listaVac == NULL) printf("\nErro ao inserir\n");
-
-    strcpy(dadosV.tipo,"v2");
-    dadosV.estoque = 0;
-
-    listaVac = inserirVacina(listaVac, dadosV);
-    if(listaVac == NULL) printf("\nErro ao inserir\n");
-
-    strcpy(dadosV.tipo,"v3");
-    dadosV.estoque = 1;
-
-    listaVac = inserirVacina(listaVac, dadosV);
-    if(listaVac == NULL) printf("\nErro ao inserir\n");
-
-    char cpf[12];
-    strcpy(cpf, "55555555555");
-    //..
-
-
 // Parte do registro de vacinacao do habitante //
 
     // Verifica se o habitante esta registrado
@@ -302,15 +255,9 @@ int main()
         dados = consultarHabitante(cpf, lista);
 
         // Verifica o grupo prioritario do habitante
-
-        // teste
-        //dados->prioridade = 2;
         if(verificaGrupoPrioritarioH(dados)){
 
             dados = consultarHabitante(cpf, lista);
-
-            // Teste
-            //dados->dose = 0;
 
             // Verifica se o habitante ja foi vacinado
             if(verificaVacinaConcluida(dados)){
@@ -337,7 +284,7 @@ int main()
     }else
         printf("Habitante nao registrado\n");
 
-    return 0;
+
 }
 
 
