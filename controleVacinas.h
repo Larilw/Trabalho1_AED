@@ -86,13 +86,15 @@ void imprimeVacinas(ListaVacinas *lista);
 
 /**
  * Registra a vacinacao do habitante
- * Entrada: lista de vacinas e habitantes, e o cpf do habitante
+ * Entrada: lista de vacinas, dados da vacina e habitante, e o cpf do habitante
  * Retorno: nenhum
  * Pré-condição: numero do cpf, listas preenchidas
- * Pós-condição: registra que o habitatefoi vacinado
+ * Pós-condição: registra que o habitate foi vacinado
  */
-void registrarVacinacao(char *cpf, ListaVacinas *listaV, ListaHabitantes *listaH);
+void registrarVacinacao(char *cpf, ListaVacinas *listaV,DadosVacina *dadosVac, DadosHabitante *dadosH);
 
+
+//void inicializaDadosStructH(DadosHabitante dados);
 
 
 #endif // CONTROLEVACINAS_H
