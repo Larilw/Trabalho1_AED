@@ -100,5 +100,14 @@ void imprimeVacinas(ListaVacinas *lista);
  */
 void registrarVacinacao(char *cpf, ListaVacinas *listaV,DadosVacina *dadosVac, DadosHabitante *dadosH);
 
+/**
+ * Verifica dados referente a vacinacao
+ * Entrada: string com o cpf do habitante
+ * Retorno: nenhum
+ * Pré-condição: nenhuma
+ * Pós-condição: verificacao dos dados
+ */
+void verificaRegistroVacinacao(char cpf[]);
+
 
 #endif // CONTROLEVACINAS_H
