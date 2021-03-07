@@ -178,13 +178,14 @@ void imprimeVacinas(ListaVacinas *l){
  * Pós-condição: registra que o habitate foi vacinado
  */
 void registrarVacinacao(char *cpf, ListaVacinas *listaV,DadosVacina *dadosVac, DadosHabitante *dadosH){
+
+    printf("\nInsira uma data para a vacinacao: ");
+    scanf("%s",dadosH->data_vacinacao);
+    strcpy(dadosH->tipo_vacina, dadosVac->tipo);
     if(dadosH->dose == 0)
         dadosH->dose = 1;
     else if(dadosH->dose == 1)
             dadosH->dose = 2;
-
-    // Testes
-    //ListaHabitantes *listaH;
 
     // Diminui do estoque
     dadosVac->estoque--;
@@ -192,7 +193,8 @@ void registrarVacinacao(char *cpf, ListaVacinas *listaV,DadosVacina *dadosVac, D
     listaV = alterarVacina(listaV, dadosVac, listaV->dados.tipo);
 
     //teste
-    printf("\nAlteracao:\ntipo = %s\nestoque = %d\nH = %s\ndose = %d\n",listaV->dados.tipo, listaV->dados.estoque,dadosH->nome,dadosH->dose);
+    printf("\nAlteracao:\ntipo vacina H = %s\nestoque = %d\nH = %s\ndose = %d\n",dadosH->tipo_vacina, listaV->dados.estoque,dadosH->nome,dadosH->dose);
+    printf("data = %s\n",dadosH->data_vacinacao);
 
 }
 /*
@@ -324,6 +326,8 @@ int main()
                     dados = consultarHabitante(cpf, lista);
 
                     registrarVacinacao(cpf,listaVac,dadosVac, dados);
+                    printf("\nAlteracao:\ntipo = %s\nestoque = %d\nH = %s\ndose = %d\n",dadosVac->tipo, dadosVac->estoque,dados->nome,dados->dose);
+
                 }
 
             }else{
