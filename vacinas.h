@@ -53,4 +53,13 @@ DadosVacina* consultarVacina(ListaVacinas *l, char* tipoVacina);
  */
 ListaVacinas* alterarVacina(ListaVacinas *l, DadosVacina *vac, char *tipoVac);
 
+/**
+ * Remove uma vacina da lista de vacinas
+ * Entrada: tipo da vacina a ser removida e lista
+ * Retorno: lista alterada
+ * Pré-condição: nenhuma
+ * Pós-condição: elemento é removido da lista de vacinas
+ */
+ListaVacinas* removerVacina(char *tipoVac, ListaVacinas* l);
+
 #endif

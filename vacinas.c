@@ -59,3 +59,29 @@ ListaVacinas* alterarVacina(ListaVacinas *l, DadosVacina *vac, char *tipoVac){
     aux->estoque = vac->estoque;
     return l;
 }
+
+/**
+ * Remove uma vacina da lista de vacinas
+ * Entrada: tipo da vacina a ser removida e lista
+ * Retorno: lista alterada
+ * Pré-condição: nenhuma
+ * Pós-condição: elemento é removido da lista de vacinas
+ */
+ListaVacinas* removerVacina(char *tipoVac, ListaVacinas* l){
+    ListaVacinas* ant = l;
+    ListaVacinas* prox = l;
+    while(prox != NULL && (strcmp(tipoVac, prox->dados.tipo) != 0)){
+        ant = prox;
+        prox = prox->pprox;
+    }
+    if(prox != NULL){
+        if(prox == l){
+            l = l->pprox;
+        }
+        else
+            ant->pprox = prox->pprox;
+        free(prox);
+    }
+    return l;
+}
+
