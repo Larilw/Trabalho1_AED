@@ -9,7 +9,14 @@
 #include <string.h>
 #include <stdio.h>
 
-
+/**
+ * Registra a data atual da vacinacao
+ * Entrada:dados do habitante
+ * Retorno: nenhum
+ * Pré-condição: nenhua
+ * Pós-condição: data atual registrada no dados do habitante
+ */
+void dataAgora(DadosHabitante *dadosH);
 
 /**
  * Imprime os grupos prioritarios liberados para vacinacao
@@ -68,12 +75,12 @@ int verificaVacinaConcluida(DadosHabitante *dados);
 
 /**
  * Verifica se existe vacina disponivel no estoque
- * Entrada: lista de vacinas
+ * Entrada: lista de vacinas e dados da vacina
  * Retorno: dados da vacina disponivel NULL se nao a vacina disponivel
  * Pré-condição: nenhuma
  * Pós-condição: vacina disponivel para ser aplicada
  */
-DadosVacina* verificaEstoqueVacina(ListaVacinas *lista);
+DadosVacina* verificaEstoqueVacina(ListaVacinas *lista, DadosVacina *dadosVac);
 
 /**
  * Imprime estoque de vacinas
@@ -92,9 +99,6 @@ void imprimeVacinas(ListaVacinas *lista);
  * Pós-condição: registra que o habitate foi vacinado
  */
 void registrarVacinacao(char *cpf, ListaVacinas *listaV,DadosVacina *dadosVac, DadosHabitante *dadosH);
-
-
-//void inicializaDadosStructH(DadosHabitante dados);
 
 
 #endif // CONTROLEVACINAS_H
