@@ -69,6 +69,10 @@ DadosHabitante separarDados(char *dados){
     strcpy(habitante.profissao, auxSemEspacos);
     aux = strtok(NULL, ";");
     habitante.prioridade = atoi(aux);
+    strcpy(habitante.data_vacinacao, "");
+    strcpy(habitante.tipo_vacina, "");
+    habitante.dose = 0;
+
     return habitante;
 }
 
@@ -89,6 +93,7 @@ ListaHabitantes* lerArquivo(ListaHabitantes *l, char *caminhoArquivo){
             novoHabitante = separarDados(linhaLida);
             //Checar Entradas do Habitante
             l = inserirHabitante(l, novoHabitante);
+            printf("teste\n");
         }
     }
     else printf("Arquivo nao encontrado.\n");

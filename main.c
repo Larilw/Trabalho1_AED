@@ -8,9 +8,9 @@
 
 int main()
 {
-    ListaHabitantes habitantes [TAM_MAX_STR];
-    //habitantes = malloc(sizeof(ListaHabitantes));
-    ListaVacinas vacinas [TAM_MAX_STR];
+    ListaHabitantes *habitantes = NULL;
+    ListaVacinas *vacinas = NULL;
+    int grupoPrioritario = 5;
 
     printf("--------------------------------------------------------------------------------\n"
            "        .',         _____                          _           _                     \n"
@@ -31,9 +31,17 @@ int main()
            "      |_____|                                                                         \n"
            "--------------------------------------------------------------------------------\n");
     //printf("Pressione uma tecla para continuar...\n");
-    //getchar();
+    //getchar()
 
-    MenuPrincipal(habitantes, vacinas);
+    DadosVacina testeVacina;
+
+    habitantes = lerArquivo(habitantes, "habitantes.txt");
+
+    strcpy(testeVacina.tipo, "vac");
+    testeVacina.estoque = 100;
+    vacinas = inserirVacina(vacinas, testeVacina);
+
+    MenuPrincipal(habitantes, vacinas, &grupoPrioritario);
 
     return 0;
 }

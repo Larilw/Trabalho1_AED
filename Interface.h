@@ -4,23 +4,23 @@
 #include "habitantes.h"
 #include "vacinas.h"
 
-void MenuHabitantes (ListaHabitantes *listaHabitante, ListaVacinas *listaVacina);
+void MenuHabitantes(ListaHabitantes *listaHabitante, ListaVacinas *listaVacina, int *grupoPrioritario);
 
-void MenuInserirHabitanteManual (ListaHabitantes *listaHabitantes, ListaVacinas *listaVacina);
+void MenuInserirHabitanteManual(ListaHabitantes *listaHabitantes, ListaVacinas *listaVacina, int *grupoPrioritario);
 
-void MenuConsultarHabitante (ListaHabitantes *listaHabitante, ListaVacinas *listaVacina);
+void MenuConsultarHabitante(ListaHabitantes *listaHabitante, ListaVacinas *listaVacina, int *grupoPrioritario);
 
-void MenuInserirHabitanteArquivo (ListaHabitantes *listaHabitante, ListaVacinas *listaVacina);
+void MenuInserirHabitanteArquivo(ListaHabitantes *listaHabitante, ListaVacinas *listaVacina, int *grupoPrioritario);
 
-void MenuRemoverHabitante (ListaHabitantes *listaHabitantes, ListaVacinas *listaVacina);
+void MenuRemoverHabitante(ListaHabitantes *listaHabitantes, ListaVacinas *listaVacina, int *grupoPrioritario);
 
-void MenuVacina (ListaHabitantes *listaHabitantes, ListaVacinas *listaVacina);
+void MenuVacina(ListaHabitantes *listaHabitantes, ListaVacinas *listaVacina, int *grupoPrioritario);
 
-void MenuCadastrarVacina (ListaHabitantes *listaHabitante, ListaVacinas *listaVacina);
+void MenuCadastrarVacina(ListaHabitantes *listaHabitante, ListaVacinas *listaVacina, int *grupoPrioritario);
 
-void MenuInserirEstoque (ListaHabitantes *listaHabitante, ListaVacinas *listaVacina);
+void MenuInserirEstoque(ListaHabitantes *listaHabitante, ListaVacinas *listaVacina, int *grupoPrioritario);
 
-void MenuRemoverVacina (ListaHabitantes *listaHabitante, ListaVacinas *listaVacina);
+void MenuRemoverVacina(ListaHabitantes *listaHabitante, ListaVacinas *listaVacina, int *grupoPrioritario);
 
 void MenuVacinacao(ListaHabitantes *listaHabitante, ListaVacinas *listaVacina, int *grupoPrioritario);
 
@@ -28,9 +28,19 @@ void MenuLiberarPrioritario (ListaHabitantes *listaHabitante, ListaVacinas *list
 
 void MenuRegistrarVacinacao (ListaHabitantes *listaHabitante, ListaVacinas *listaVacina, int *grupoPrioritario);
 
-void MenuRelatorio ();
+void MenuRelatorio (ListaHabitantes *listaHabitante, ListaVacinas *listaVacina, int *grupoPrioritario);
 
-void MenuPrincipal (ListaHabitantes *listaHabitante, ListaVacinas *listaVacina);
+void MenuRelatorioEstoque (ListaHabitantes *listaHabitante, ListaVacinas *listaVacina, int *grupoPrioritario);
+
+void MenuRelatorioPrimeiraDose (ListaHabitantes *listaHabitante, ListaVacinas *listaVacina, int *grupoPrioritario);
+
+void MenuRelatorioSegundaDose (ListaHabitantes *listaHabitante, ListaVacinas *listaVacina, int *grupoPrioritario);
+
+void MenuRelatorioNaoVacinados (ListaHabitantes *listaHabitante, ListaVacinas *listaVacina, int *grupoPrioritario);
+
+void MenuRelatorioPrioritario (ListaHabitantes *listaHabitante, ListaVacinas *listaVacina, int *grupoPrioritario);
+
+void MenuPrincipal(ListaHabitantes *listaHabitante, ListaVacinas *listaVacina, int *grupoPrioritario);
 
 void PrintMessage(char *str, char alinhamento, int barraTopo, int barraBase);
 
