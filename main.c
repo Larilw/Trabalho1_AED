@@ -31,7 +31,7 @@ int main()
            "      |_____|                                                                         \n"
            "--------------------------------------------------------------------------------\n");
     //printf("Pressione uma tecla para continuar...\n");
-    //getchar()
+    //getchar();
 
     DadosVacina testeVacina;
 
@@ -42,6 +42,12 @@ int main()
     vacinas = inserirVacina(vacinas, testeVacina);
 
     MenuPrincipal(habitantes, vacinas, &grupoPrioritario);
+
+    limparListaVacinas(vacinas);
+
+    PrintMessage("Encerrando programa", 'c', 1 , 1);
+    printf("Pressione uma tecla para continuar...\n");
+    getchar();
 
     return 0;
 }

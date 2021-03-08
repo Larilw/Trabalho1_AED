@@ -3,6 +3,7 @@
 #include "habitantes.h"
 #include "readStdio.h"
 #include "leitura_arquivo.h"
+#include "controleVacinas.h"
 
 /*
  * Variaveis de controle do menu
@@ -74,7 +75,7 @@ void MenuPrincipal(ListaHabitantes *listaHabitante, ListaVacinas *listaVacina, i
         case MMENU_RELATORIO:
             MenuRelatorio(listaHabitante, listaVacina, grupoPrioritario);
         case CANCELAR:
-            MenuPrincipal(listaHabitante, listaVacina, grupoPrioritario);
+            return;
         default:
             printf("--------------------------------------------------------------------------------\n");
             printf("O valor digitado nao corresponde a nenhuma das operacoes\n");
@@ -418,8 +419,7 @@ void MenuRemoverVacina(ListaHabitantes *listaHabitante, ListaVacinas *listaVacin
                      "1 - Sim", 'd', 1, 1);
         int confirmacao = LerIntervaloInteiro(0, 1);
         if (confirmacao == 1) {
-            /* alterar funcao */
-            limparListaVacinas(listaVacina);
+            removerVacina(vacina, listaVacina);
             PrintMessage("Vacina removida.", 'd', 1, 1);
         }
     }
@@ -427,7 +427,7 @@ void MenuRemoverVacina(ListaHabitantes *listaHabitante, ListaVacinas *listaVacin
         PrintMessage("Vacina nao encontrada", 'd', 1, 1);
     }
 
-    PrintMessage("Deseja remover outro habitante?\n"
+    PrintMessage("Deseja remover outra vacina?\n"
                  "0 - Nao\n"
                  "1 - Sim", 'd', 1, 1);
     int seletor = LerIntervaloInteiro(0,1);
@@ -471,7 +471,8 @@ void MenuVacinacao(ListaHabitantes *listaHabitante, ListaVacinas *listaVacina, i
 void MenuLiberarPrioritario (ListaHabitantes *listaHabitante, ListaVacinas *listaVacina, int *grupoPrioritario)
 {
     PrintMessage("Liberacao de grupo prioritario.", 'd', 1, 0);
-    printf("Grupo prioritario atual: %d\n", *grupoPrioritario);
+    imprimeGruposPrioritarios();
+
     if (*grupoPrioritario < 5) {
         PrintMessage("Confirme a liberacao do grupo proximo grupo prioritario\n"
                      "0 - Nao\n"
@@ -512,7 +513,7 @@ void MenuRegistrarVacinacao (ListaHabitantes *listaHabitante, ListaVacinas *list
     char vacina[TAM_MAX_STR];
 
     PrintMessage("Registro de vacinacao.", 'd', 1, 0);
-    printf("Grupo prioritario atual: %d", *grupoPrioritario);
+    imprimeGruposPrioritarios();
     PrintMessage("", 'd', 0, 1);
 
     PrintMessage("Entre com o cpf do habitante que deseja vacinar.", 'd', 1, 1);
@@ -617,11 +618,13 @@ void MenuRelatorio (ListaHabitantes *listaHabitante, ListaVacinas *listaVacina, 
 
 void MenuRelatorioEstoque (ListaHabitantes *listaHabitante, ListaVacinas *listaVacina, int *grupoPrioritario)
 {
+    ListaVacinas *aux = listaVacina;
+
     PrintMessage("Estoque de Vacinas:", 'd', 1, 0);
-    if (strcmp(listaVacina->dados.tipo, "") != 0) {
-        while(listaVacina != NULL) {
-            printf("Vacina %s: %d\n", listaVacina->dados.tipo, listaVacina->dados.estoque);
-            listaVacina = listaVacina->pprox;
+    if (strcmp(aux->dados.tipo, "") != 0 && aux != NULL) {
+        while(aux != NULL) {
+            printf("Vacina %s: %d\n", aux->dados.tipo, aux->dados.estoque);
+            aux = aux->pprox;
         }
     }
     else {
@@ -634,14 +637,16 @@ void MenuRelatorioEstoque (ListaHabitantes *listaHabitante, ListaVacinas *listaV
 
 void MenuRelatorioPrimeiraDose (ListaHabitantes *listaHabitante, ListaVacinas *listaVacina, int *grupoPrioritario)
 {
+    ListaHabitantes *aux = listaHabitante;
+
     PrintMessage("Habitantes vacinados com a 1a dose:", 'd', 1, 1);
-    if (strcmp(listaHabitante->habitante.cpf, "") != 0) {
+    if (strcmp(aux->habitante.cpf, "") != 0 && aux != NULL) {
         printf("%*s       | %*s\n", 8, "CPF", 7, "Nome");
-        while(listaHabitante != NULL) {
-            if (listaHabitante->habitante.dose == 1) {
-                printf("%-15s| %s  \n", listaHabitante->habitante.cpf, listaHabitante->habitante.nome);
+        while(aux != NULL) {
+            if (aux->habitante.dose == 1) {
+                printf("%-15s| %s  \n", aux->habitante.cpf, aux->habitante.nome);
             }
-            listaHabitante = listaHabitante->pprox;
+            aux = aux->pprox;
         }
     }
     else {
@@ -655,19 +660,22 @@ void MenuRelatorioPrimeiraDose (ListaHabitantes *listaHabitante, ListaVacinas *l
 void MenuRelatorioSegundaDose (ListaHabitantes *listaHabitante, ListaVacinas *listaVacina, int *grupoPrioritario)
 {
     int count = 0;
+    ListaHabitantes *aux = listaHabitante;
+
     PrintMessage("Habitantes vacinados com a 2a dose:", 'd', 1, 1);
-    if (strcmp(listaHabitante->habitante.cpf, "") != 0) {
-        while(listaHabitante != NULL) {
-            if (listaHabitante->habitante.dose == 2) {
+    if (strcmp(aux->habitante.cpf, "") != 0 && aux != NULL) {
+        while(aux != NULL) {
+            if (aux->habitante.dose == 2) {
                 count++;
             }
-            listaHabitante = listaHabitante->pprox;
+            aux = aux->pprox;
         }
         printf("Numero de vacinados com a segunda dose: %d \n", count);
     }
     else {
         PrintMessage("Sem habitantes cadastrados.", 'd', 0,1);
     }
+
     PrintMessage("Pressione uma tecla para continuar...", 'd', 1, 0);
     getchar();
     MenuRelatorio(listaHabitante, listaVacina, grupoPrioritario);
@@ -679,24 +687,25 @@ void MenuRelatorioNaoVacinados (ListaHabitantes *listaHabitante, ListaVacinas *l
     ListaHabitantes *aux = listaHabitante;
 
     PrintMessage("Habitantes nao vacinados:", 'd', 1, 1);
-    if (strcmp(listaHabitante->habitante.cpf, "") != 0) {
+    if (strcmp(aux->habitante.cpf, "") != 0 && aux != NULL) {
         for (int i = 1; i <= 5; i++) {
             printf("\nPrioridade: %d\n", i);
             printf("%*s       | %*s\n", 8, "CPF", 7, "Nome");
-            while(listaHabitante != NULL) {
-                if (listaHabitante->habitante.dose == 0 && listaHabitante->habitante.prioridade == i) {
-                    printf("%-15s| %s  \n", listaHabitante->habitante.cpf, listaHabitante->habitante.nome);
+            while(aux != NULL) {
+                if (aux->habitante.dose == 0 && aux->habitante.prioridade == i) {
+                    printf("%-15s| %s  \n", aux->habitante.cpf, aux->habitante.nome);
                     count++;
                 }
-                listaHabitante = listaHabitante->pprox;
+                aux = aux->pprox;
             }
-            listaHabitante = aux;
+            aux = listaHabitante;
         }
         printf("Pessoas nao vacinadas: %d \n", count);
     }
     else {
         PrintMessage("Sem habitantes cadastrados.", 'd', 0,1);
     }
+
     PrintMessage("Pressione uma tecla para continuar...", 'd', 1, 0);
     getchar();
     MenuRelatorio(listaHabitante, listaVacina, grupoPrioritario);
@@ -708,22 +717,23 @@ void MenuRelatorioPrioritario (ListaHabitantes *listaHabitante, ListaVacinas *li
     ListaHabitantes *aux = listaHabitante;
 
     PrintMessage("Numero de pessoas por grupo prioritario:", 'd', 1, 1);
-    if (strcmp(listaHabitante->habitante.cpf, "") != 0 ) {
+    if (strcmp(aux->habitante.cpf, "") != 0 && aux != NULL) {
         for (int i = 1; i <= 5; i++) {
-            while(listaHabitante != NULL) {
-                if (listaHabitante->habitante.dose == 0 && listaHabitante->habitante.prioridade == i) {
+            while(aux != NULL) {
+                if (aux->habitante.dose == 0 && aux->habitante.prioridade == i) {
                     count++;
                 }
-                listaHabitante = listaHabitante->pprox;
+                aux = aux->pprox;
             }
-            printf("Numero de pessoas no grupo %d: %d \n", i, count);
+            printf("Grupo prioritário %d: %d \n", i, count);
             count = 0;
-            listaHabitante = aux;
+            aux = listaHabitante;
         }
     }
     else {
         PrintMessage("Sem habitantes cadastrados.", 'd', 0,1);
     }
+
     PrintMessage("Pressione uma tecla para continuar...", 'd', 1, 0);
     getchar();
     MenuRelatorio(listaHabitante, listaVacina, grupoPrioritario);

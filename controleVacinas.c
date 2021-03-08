@@ -1,12 +1,13 @@
 #include "controleVacinas.h"
 #include "vacinas.h"
 #include "habitantes.h"
+#include "leitura_arquivo.h"
+#include "readStdio.h"
+#include "constantes.h"
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-
-#include "leitura_arquivo.h"
 #include <string.h>
 
 
@@ -41,7 +42,7 @@ void imprimeGruposPrioritarios(){
 int validaGrupoPrioritario(int *grupo){
     while(*grupo < 1 || *grupo > 5){
         printf("Invalido! Entre novamete: ");
-        scanf("%d",grupo);
+        *grupo = LerInteiro();
     }
     if(grupo_prioritario[*grupo-1] == *grupo){
         printf("Grupo ja liberado!\n");
@@ -77,7 +78,7 @@ int liberaGrupoPrioritario(){
     printf("\n");
 
     printf("\nEntre com o numero do grupo 1 a 5: ");
-    scanf("%d",&grupo); // talvez tenha que mudar o nome da var
+    grupo = LerInteiro(); // talvez tenha que mudar o nome da var
 
     if(validaGrupoPrioritario(&grupo) == 0) return 0;
 
