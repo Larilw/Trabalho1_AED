@@ -33,18 +33,6 @@ int main()
     printf("Pressione uma tecla para continuar...\n");
     getchar();
 
-    DadosVacina testeVacina;
-
-    habitantes = lerArquivo(habitantes, "habitantes.txt");
-
-    strcpy(testeVacina.tipo, "vac");
-    testeVacina.estoque = 100;
-    vacinas = inserirVacina(vacinas, testeVacina);
-
-    strcpy(testeVacina.tipo, "v");
-    testeVacina.estoque = 100;
-    vacinas = inserirVacina(vacinas, testeVacina);
-
     MenuPrincipal(habitantes, vacinas, &grupoPrioritario);
 
     limparListaVacinas(vacinas);
