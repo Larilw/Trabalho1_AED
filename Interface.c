@@ -615,7 +615,12 @@ void MenuRelatorio (ListaHabitantes *listaHabitante, ListaVacinas *listaVacina, 
  */
 void MenuRelatorioEstoque (ListaHabitantes *listaHabitante, ListaVacinas *listaVacina, int *grupoPrioritario)
 {
-    PrintRelatorioEstoque(listaVacina);
+    if (listaVacina != NULL) {
+        PrintRelatorioEstoque(listaVacina);
+    }
+    else {
+        PrintMessage("Sem vacinas cadastradas.", 'e', 1, 0);
+    }
 
     PrintMessage("Pressione uma tecla para continuar...", 'e', 1, 0);
     getchar();
@@ -631,7 +636,12 @@ void MenuRelatorioEstoque (ListaHabitantes *listaHabitante, ListaVacinas *listaV
  */
 void MenuRelatorioPrimeiraDose (ListaHabitantes *listaHabitante, ListaVacinas *listaVacina, int *grupoPrioritario)
 {
-    PrintRelatorioPrimeiraDose(listaHabitante);
+    if (listaHabitante != NULL) {
+        PrintRelatorioPrimeiraDose(listaHabitante);
+    }
+    else {
+        PrintMessage("Sem habitantes cadastrados.", 'e', 1, 0);
+    }
 
     PrintMessage("Pressione uma tecla para continuar...", 'e', 1, 0);
     getchar();
@@ -647,8 +657,12 @@ void MenuRelatorioPrimeiraDose (ListaHabitantes *listaHabitante, ListaVacinas *l
  */
 void MenuRelatorioSegundaDose (ListaHabitantes *listaHabitante, ListaVacinas *listaVacina, int *grupoPrioritario)
 {
-    PrintRelatorioSegundaDose(listaHabitante);
-
+    if (listaHabitante != NULL) {
+        PrintRelatorioSegundaDose(listaHabitante);
+    }
+    else {
+        PrintMessage("Sem habitantes cadastrados.", 'e', 1, 0);
+    }
     PrintMessage("Pressione uma tecla para continuar...", 'e', 1, 0);
     getchar();
     MenuRelatorio(listaHabitante, listaVacina, grupoPrioritario);
@@ -663,7 +677,12 @@ void MenuRelatorioSegundaDose (ListaHabitantes *listaHabitante, ListaVacinas *li
  */
 void MenuRelatorioNaoVacinados (ListaHabitantes *listaHabitante, ListaVacinas *listaVacina, int *grupoPrioritario)
 {
-    PrintRelatorioNaoVacinados(listaHabitante, grupoPrioritario);
+    if (listaHabitante != NULL) {
+        PrintRelatorioNaoVacinados(listaHabitante, grupoPrioritario);
+    }
+    else {
+        PrintMessage("Sem habitantes cadastrados.", 'e', 1, 0);
+    }
 
     PrintMessage("Pressione uma tecla para continuar...", 'e', 1, 0);
     getchar();
@@ -679,7 +698,12 @@ void MenuRelatorioNaoVacinados (ListaHabitantes *listaHabitante, ListaVacinas *l
  */
 void MenuRelatorioPrioritario (ListaHabitantes *listaHabitante, ListaVacinas *listaVacina, int *grupoPrioritario)
 {
-    PrintRelatorioPrioritario(listaHabitante, grupoPrioritario);
+    if (listaHabitante != NULL) {
+        PrintRelatorioPrioritario(listaHabitante, grupoPrioritario);
+    }
+    else {
+        PrintMessage("Sem habitantes cadastrados.", 'e', 1, 0);
+    }
 
     PrintMessage("Pressione uma tecla para continuar...", 'e', 1, 0);
     getchar();
