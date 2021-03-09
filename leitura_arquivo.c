@@ -1,5 +1,6 @@
 #include "leitura_arquivo.h"
 #include "habitantes.h"
+#include "controleVacinas.h"
 
 /**
  * Remove um espaço vazio do início de uma string
@@ -91,9 +92,13 @@ ListaHabitantes* lerArquivo(ListaHabitantes *l, char *caminhoArquivo){
     if(arq != NULL){
         while(fgets(linhaLida, sizeof(linhaLida), arq) != NULL){
             novoHabitante = separarDados(linhaLida);
-            //Checar Entradas do Habitante
-            l = inserirHabitante(l, novoHabitante);
-            printf("teste\n");
+            if (!verificaHabitanteRegistrado(l, &novoHabitante, novoHabitante.cpf)) {
+                l = inserirHabitante(l, novoHabitante);
+                printf("Habitante de CPF %s cadastrado.\n", novoHabitante.cpf);
+            }
+            else {
+                printf("Habitante de CPF %s nao pode ser cadastrado.\n", novoHabitante.cpf);
+            }
         }
     }
     else printf("Arquivo nao encontrado.\n");

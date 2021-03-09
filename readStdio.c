@@ -7,11 +7,14 @@
 #include "habitantes.h"
 #include "vacinas.h"
 #include "Interface.h"
+#include "controleVacinas.h"
 
 /**
  * Faz a leitura de um inteiro
- * retorno número inteiro
- *
+ * Entrada: nenhuma
+ * Retorno: número inteiro
+ * Pré-condição: nenhuma
+ * Pós-condição: nenhuma
  */
 int LerInteiro ()
 {
@@ -32,11 +35,12 @@ int LerInteiro ()
 }
 
 /**
- * Faz a leitura de de inteiros entre um intervalo
+ * Faz a leitura de inteiros entre um intervalo
  * entrada dois extremos do intervalo
  * returno Retorna um inteiro caso esteja dentro do intervalo
+ * Pré-condição: nenhuma
+ * Pós-condição: nenhuma
  */
-
 int LerIntervaloInteiro (int numA, int numB)
 {
     int firstNum = (numA > numB)? numB: numA;
@@ -52,6 +56,13 @@ int LerIntervaloInteiro (int numA, int numB)
     return inteiro;
 }
 
+/**
+ * Faz a leitura de uma string
+ * entrada string de destino e inteiro para demarcar obrigatoriedade de preenchimento
+ * returno Retorna flag 1 caso string esteja vazia
+ * Pré-condição: nenhuma
+ * Pós-condição: str preenchida com entrada do teclado
+ */
 int LerString (char * str, int obrigatorio)
 {
     int flag = 0;
@@ -65,71 +76,103 @@ int LerString (char * str, int obrigatorio)
             fgets (str, TAM_MAX_STR, stdin);
         }
     }
+    if ((strlen(str)-1) == 0 && obrigatorio == 0) flag = 1;
     str[strcspn(str, "\n")] = 0;
 
-    return flag = 1;
+    return flag;
 }
 
+/**
+ * Faz a leitura de um char
+ * entrada nenhuma
+ * returno caractere
+ * Pré-condição: nenhuma
+ * Pós-condição: nenhuma
+ */
 char LerChar ()
 {
-    char final, buffer;
-    char inteiro;
+    char buffer;
 
     scanf("%c", &buffer);
     return buffer;
 }
 
-DadosHabitante * LerHabitante (DadosHabitante *dados)
+/**
+ * Faz a leitura de dados do habitante
+ * Entrada: struct de dados do habitante e lista de habitantes
+ * returno struct de dados do habitante preenchida
+ * Pré-condição: nenhuma
+ * Pós-condição: nenhuma
+ */
+DadosHabitante *LerHabitante(DadosHabitante *dados, ListaHabitantes *listaHabitante)
 {
     char string[TAM_MAX_STR] = "";
-    PrintMessage("Entre com o CPF.", 'd', 1, 1);
+    PrintMessage("Entre com o CPF.", 'e', 1, 1);
     LerString(string, 1);
     strcpy(dados->cpf, string);
+    if (verificaHabitanteRegistrado(listaHabitante, dados, dados->cpf)) {
+        return NULL;
+    }
+
     strcpy(dados->data_vacinacao, "");
     strcpy(dados->tipo_vacina, "");
-    PrintMessage("Entre com o Telefone.", 'd', 1, 1);
+    PrintMessage("Entre com o Telefone.", 'e', 1, 1);
     LerString(string, 0);
     strcpy(dados->telefone, string);
-    PrintMessage("Entre com o endereco.", 'd', 1, 1);
+    PrintMessage("Entre com o endereco.", 'e', 1, 1);
     LerString(string, 0);
     strcpy(dados->endereco, string);
-    PrintMessage("Entre com o RG.", 'd', 1, 1);
+    PrintMessage("Entre com o RG.", 'e', 1, 1);
     LerString(string, 1);
     strcpy(dados->rg, string);
-    PrintMessage("Entre com o nome.", 'd', 1, 1);
+    PrintMessage("Entre com o nome.", 'e', 1, 1);
     LerString(string, 1);
     strcpy(dados->nome, string);
-    PrintMessage("Entre com a profissao.", 'd', 1, 1);
+    PrintMessage("Entre com a profissao.", 'e', 1, 1);
     LerString(string, 0);
     strcpy(dados->profissao, string);
-    PrintMessage("Entre com a genero.", 'd', 1, 1);
+    PrintMessage("Entre com a genero.", 'e', 1, 1);
     dados->sexo = LerChar();
-    PrintMessage("Entre com a idade.", 'd', 1, 1);
+    PrintMessage("Entre com a idade.", 'e', 1, 1);
     dados->idade = LerInteiro();
-    PrintMessage("Entre com a prioridade.", 'd', 1, 1);
-    dados->prioridade = LerInteiro();
+    PrintMessage("Entre com a prioridade.", 'e', 1, 1);
+    dados->prioridade = LerIntervaloInteiro(1, 5);
     dados->dose = 0;
 
     return dados;
 }
 
+/**
+ * Faz a leitura de dados de uma vacina
+ * Entrada: struct de dados da vacinas
+ * returno struct de dados da vacina preenchida
+ * Pré-condição: nenhuma
+ * Pós-condição: nenhuma
+ */
 DadosVacina * LerVacina (DadosVacina *dados)
 {
     char string[TAM_MAX_STR] = "";
 
-    PrintMessage("Entre com o nome da vacina.", 'd', 1, 1);
+    PrintMessage("Entre com o nome da vacina.", 'e', 1, 1);
     LerString(string, 1);
     strcpy(dados->tipo, string);
 
-    PrintMessage("Entre com a quantidade da vacina.", 'd', 1, 1);
+    PrintMessage("Entre com a quantidade da vacina.", 'e', 1, 1);
     dados->estoque = LerInteiro();
 
     return dados;
 }
 
+/**
+ * Faz a leitura de estoque de uma vacina
+ * Entrada: struct de dados da vacinas
+ * returno: struct de dados da vacina com novo estoque
+ * Pré-condição: nenhuma
+ * Pós-condição: nenhuma
+ */
 DadosVacina * LerVacinaEstoque (DadosVacina *dados)
 {
-    PrintMessage("Entre com a quantidade da vacina que deseja inserir.", 'd', 1, 1);
+    PrintMessage("Entre com a quantidade da vacina que deseja inserir.", 'e', 1, 1);
     dados->estoque = LerInteiro();
 
     return dados;

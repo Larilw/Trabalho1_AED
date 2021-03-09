@@ -10,7 +10,7 @@ int main()
 {
     ListaHabitantes *habitantes = NULL;
     ListaVacinas *vacinas = NULL;
-    int grupoPrioritario = 5;
+    int grupoPrioritario = 0;
 
     printf("--------------------------------------------------------------------------------\n"
            "        .',         _____                          _           _                     \n"
@@ -30,14 +30,18 @@ int main()
            "       _|||_                                                    )_)            \n"
            "      |_____|                                                                         \n"
            "--------------------------------------------------------------------------------\n");
-    //printf("Pressione uma tecla para continuar...\n");
-    //getchar();
+    printf("Pressione uma tecla para continuar...\n");
+    getchar();
 
     DadosVacina testeVacina;
 
     habitantes = lerArquivo(habitantes, "habitantes.txt");
 
     strcpy(testeVacina.tipo, "vac");
+    testeVacina.estoque = 100;
+    vacinas = inserirVacina(vacinas, testeVacina);
+
+    strcpy(testeVacina.tipo, "v");
     testeVacina.estoque = 100;
     vacinas = inserirVacina(vacinas, testeVacina);
 

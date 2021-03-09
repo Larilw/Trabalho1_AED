@@ -80,7 +80,7 @@ int verificaVacinaConcluida(DadosHabitante *dados);
  * Pré-condição: nenhuma
  * Pós-condição: vacina disponivel para ser aplicada
  */
-DadosVacina* verificaEstoqueVacina(ListaVacinas *lista, DadosVacina *dadosVac);
+DadosVacina *verificaEstoqueVacina(DadosVacina *dadosVac);
 
 /**
  * Imprime estoque de vacinas
@@ -98,7 +98,7 @@ void imprimeVacinas(ListaVacinas *lista);
  * Pré-condição: numero do cpf, listas preenchidas
  * Pós-condição: registra que o habitate foi vacinado
  */
-void registrarVacinacao(char *cpf, ListaVacinas *listaV,DadosVacina *dadosVac, DadosHabitante *dadosH);
+void registrarVacinacao(char *cpf, DadosVacina *dadosVac, DadosHabitante *dadosH);
 
 /**
  * Verifica dados referente a vacinacao
@@ -107,7 +107,7 @@ void registrarVacinacao(char *cpf, ListaVacinas *listaV,DadosVacina *dadosVac, D
  * Pré-condição: nenhuma
  * Pós-condição: verificacao dos dados
  */
-void verificaRegistroVacinacao(char cpf[]);
+void verificaRegistroVacinacao(ListaVacinas *listaVacina, ListaHabitantes *listaHabitante, char cpf[], char vacina[]);
 
 
 #endif // CONTROLEVACINAS_H

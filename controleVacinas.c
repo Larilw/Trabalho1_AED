@@ -4,6 +4,7 @@
 #include "leitura_arquivo.h"
 #include "readStdio.h"
 #include "constantes.h"
+#include "relatorio.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -13,7 +14,7 @@
 
 
 // Vetor global de grupos prioritarios
-int grupo_prioritario[MAX_GRUPO_PRIORITARIO] = {1,2,3,4,5};
+int grupo_prioritario[MAX_GRUPO_PRIORITARIO] = {0};
 
 
 /**
@@ -25,10 +26,16 @@ int grupo_prioritario[MAX_GRUPO_PRIORITARIO] = {1,2,3,4,5};
  */
 void imprimeGruposPrioritarios(){
     int i = 0;
-    printf("\nGrupos ja liberados para a vacinacao:\n");
-    while(grupo_prioritario[i] && grupo_prioritario[i] != 0){
-        printf("    %d", grupo_prioritario[i]);
-        i++;
+    PrintMessage("Grupos ja liberados para a vacinacao:", 'e', 1, 0);
+    if (grupo_prioritario[0] == 0){
+        PrintMessage("Nenhum grupo liberado", 'e', 0, 0);
+    }
+    else {
+        while (grupo_prioritario[i] && grupo_prioritario[i] != 0) {
+            printf("    %d", grupo_prioritario[i]);
+            i++;
+        }
+        printf("\n");
     }
 }
 
@@ -41,21 +48,21 @@ void imprimeGruposPrioritarios(){
  */
 int validaGrupoPrioritario(int *grupo){
     while(*grupo < 1 || *grupo > 5){
-        printf("Invalido! Entre novamete: ");
+        PrintMessage("Invalido! Entre com o numero do grupo 1 a 5: ", 'e', 1, 0);
         *grupo = LerInteiro();
     }
     if(grupo_prioritario[*grupo-1] == *grupo){
-        printf("Grupo ja liberado!\n");
+        PrintMessage("Grupo ja liberado.", 'e', 1, 1);
         return 2;
     }else if(*grupo > 1 && grupo_prioritario[*grupo-2] == 0 ){
-         printf("Grupo nao pode ser liberado!\n");
-         return 2;
+        PrintMessage("Grupo nao pode ser liberado.", 'e', 1, 1);
+        return 2;
     }
     grupo_prioritario[*grupo-1] = *grupo;
-    printf("Grupo prioritario %d foi adicionado!\n",*grupo);
+    PrintMessage("Grupo pode ser liberado.", 'e', 1, 1);
 
     if(grupo_prioritario[4] != 0){
-        printf("Grupos prioritarios completos!\n");
+        PrintMessage("Ultimo grupo prioritario ja liberado.", 'e', 1, 1);
         return 0;
     }
     return 1;
@@ -70,19 +77,14 @@ int validaGrupoPrioritario(int *grupo){
  */
 int liberaGrupoPrioritario(){
     int grupo = 1;
-    if(grupo_prioritario[0] == 0)
-        printf("\nLibere um grupo para a vacinacao!\n");
-    else{
-        imprimeGruposPrioritarios();
-    }
-    printf("\n");
+    imprimeGruposPrioritarios();
 
-    printf("\nEntre com o numero do grupo 1 a 5: ");
+    PrintMessage("Entre com o numero do grupo 1 a 5: ", 'e', 1, 0);
     grupo = LerInteiro(); // talvez tenha que mudar o nome da var
 
-    if(validaGrupoPrioritario(&grupo) == 0) return 0;
+    if(validaGrupoPrioritario(&grupo) == 1) return 1;
 
-    return 1;
+    return 0;
 }
 
 /**
@@ -94,7 +96,7 @@ int liberaGrupoPrioritario(){
  */
 int verificaHabitanteRegistrado(ListaHabitantes *lista, DadosHabitante *dadosH, char *cpf){
     dadosH = consultarHabitante(cpf, lista);
-    if(dadosH->nome == NULL){
+    if(dadosH == NULL){
         return 0;
     }else{
         //printf ("Habitante encontrado:\n nome: %s\n cpf: %s\n prioridade: %d\n", dadosH->nome, dadosH->cpf,dadosH->prioridade);
@@ -141,13 +143,8 @@ int verificaVacinaConcluida(DadosHabitante *dadosH){
  * Pré-condição: nenhuma
  * Pós-condição: vacina disponivel para ser aplicada
  */
-DadosVacina* verificaEstoqueVacina(ListaVacinas *l, DadosVacina *dadosVac){
+DadosVacina *verificaEstoqueVacina(DadosVacina *dadosVac) {
     //printf("\nTipo da vacina: %s\nEstoque: %d\n",lista->dados.tipo,lista->dados.estoque);
-    printf("Insira o nome da vacina\n");
-    gets(dadosVac->tipo);
-
-    dadosVac = consultarVacina(l,dadosVac->tipo);
-
     if (dadosVac != NULL && dadosVac->estoque > 0)
         return dadosVac;
     else
@@ -210,16 +207,14 @@ void dataAgora(DadosHabitante *dadosH){
  * Pré-condição: numero do cpf, listas preenchidas
  * Pós-condição: registra que o habitate foi vacinado
  */
-void registrarVacinacao(char *cpf, ListaVacinas *listaV,DadosVacina *dadosVac, DadosHabitante *dadosH){
+void registrarVacinacao(char *cpf, DadosVacina *dadosVac, DadosHabitante *dadosH) {
     dataAgora(dadosH);
     strcpy(dadosH->tipo_vacina, dadosVac->tipo);
 
     dadosH->dose++;
 
     // Diminui do estoque
-    dadosVac->estoque--;
-
-    listaV = alterarVacina(listaV, dadosVac, listaV->dados.tipo);
+    dadosVac->estoque-=1;
 }
 
 /**
@@ -229,63 +224,46 @@ void registrarVacinacao(char *cpf, ListaVacinas *listaV,DadosVacina *dadosVac, D
  * Pré-condição: nenhuma
  * Pós-condição: verificacao dos dados
  */
-void verificaRegistroVacinacao(char cpf[]){
-
-    ListaHabitantes *lista;
-    lista = malloc (sizeof (ListaHabitantes));
-
-    char caminhoArq [300];
-    strcpy(caminhoArq, "habitantes.txt");
-    lista = lerArquivo(lista, caminhoArq);
-
+void verificaRegistroVacinacao(ListaVacinas *listaVacina, ListaHabitantes *listaHabitante, char cpf[], char vacina[])
+{
     DadosHabitante *dados;
-    dados = malloc(sizeof(DadosHabitante));
-
-    ListaVacinas *listaVac;
-    listaVac = malloc(sizeof(ListaVacinas));
-
+    DadosVacina aux;
     DadosVacina *dadosVac;
-    dadosVac = malloc(sizeof(DadosVacina));
-
-    DadosVacina dadosV;
-
-// Parte do registro de vacinacao do habitante //
+    dadosVac = &aux;
 
     // Verifica se o habitante esta registrado
-    if(verificaHabitanteRegistrado(lista, dados, cpf)){
-        dados = consultarHabitante(cpf, lista);
+    dados = consultarHabitante(cpf, listaHabitante);
+    if(verificaHabitanteRegistrado(listaHabitante, dados, cpf)){
 
         // Verifica o grupo prioritario do habitante
         if(verificaGrupoPrioritarioH(dados)){
-
-            dados = consultarHabitante(cpf, lista);
 
             // Verifica se o habitante ja foi vacinado
             if(verificaVacinaConcluida(dados)){
 
                 // Veritfica se a vacina esta diponivel
-                dadosVac = verificaEstoqueVacina(listaVac, dadosVac);
-                if(dadosVac == NULL){
-                    printf("Nao e possivel vacinar. Estoque zerado\n");
+                PrintMessage("Entre com o nome da vacina:", 'e', 1, 0);
 
-                }else{
+                dadosVac = consultarVacina(listaVacina, vacina);
+                if(dadosVac == NULL){
+                    PrintMessage("Sem Estoque da vacina.", 'e', 1, 1);
+                }
+                else {
                     // Registrar vacinacao
-                    dados = consultarHabitante(cpf, lista);
-                    registrarVacinacao(cpf,listaVac,dadosVac, dados);
-                    //teste
-                    printf("\nAlteracao:\ntipo vacina H = %s\nestoque = %d\nH = %s\ndose = %d\n",dados->tipo_vacina, listaVac->dados.estoque,dados->nome,dados->dose);
-                    printf("data = %s\n",dados->data_vacinacao);
+                    registrarVacinacao(cpf, dadosVac, dados);
+
+                    PrintMessage("Dados da vacinacao:", 'e', 1, 0);
+                    printf("Tipo da vacina = %s\nEstoque = %d\nHabitante = %s\nDose = %d\n", dados->tipo_vacina, listaVacina->dados.estoque, dados->nome, dados->dose);
+                    printf("Data = %s\n",dados->data_vacinacao);
                 }
             }else{
-                printf("Habitante ja vacinado\n");
+                PrintMessage("Habitante ja recebeu as 2 doses da vacina.", 'e', 1, 1);
             }
         }else{
-            printf("O habitante nao pode ser vacinado porque seu grupo nao esta liberado para vacinacao\n");
+            PrintMessage("O habitante nao pode ser vacinado porque seu grupo nao esta liberado para vacinacao.", 'e', 1, 1);
         }
     }else
-        printf("Habitante nao registrado\n");
-
-
+        PrintMessage("Habitante nao registrado.", 'e', 1, 1);
 }
 
 
