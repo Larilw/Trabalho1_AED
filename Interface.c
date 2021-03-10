@@ -50,6 +50,7 @@
  */
 void MenuPrincipal(ListaHabitantes *listaHabitante, ListaVacinas *listaVacina, int *grupoPrioritario) {
     int seletor;
+    int encerraPrograma = 0;
 
     PrintMessage("Menu Principal", 'c', 1, 1);
     printf("Entre com o numero da operacao desejada\n\n");
@@ -71,7 +72,12 @@ void MenuPrincipal(ListaHabitantes *listaHabitante, ListaVacinas *listaVacina, i
         case MMENU_RELATORIO:
             MenuRelatorio(listaHabitante, listaVacina, grupoPrioritario);
         case CANCELAR:
-            break;
+            limparListaVacinas(listaVacina);
+
+            PrintMessage("Encerrando programa", 'c', 1 , 1);
+            printf("Pressione uma tecla para continuar...\n");
+            getchar();
+            exit(0);
         default:
             PrintMessage("O valor digitado nao corresponde a nenhuma das operacoes", 'e', 1, 1);
             MenuPrincipal(listaHabitante, listaVacina, grupoPrioritario);

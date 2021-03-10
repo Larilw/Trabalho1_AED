@@ -35,11 +35,5 @@ int main()
 
     MenuPrincipal(habitantes, vacinas, &grupoPrioritario);
 
-    limparListaVacinas(vacinas);
-
-    PrintMessage("Encerrando programa", 'c', 1 , 1);
-    printf("Pressione uma tecla para continuar...\n");
-    getchar();
-
-    return 0;
+    return 1;
 }
