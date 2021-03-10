@@ -34,6 +34,8 @@ int LerIntervaloInteiro (int numA, int numB);
  */
 int LerString (char * str, int obrigatorio);
 
+void LimpaBuffer ();
+
 /**
  * Faz a leitura de um char
  * entrada nenhuma

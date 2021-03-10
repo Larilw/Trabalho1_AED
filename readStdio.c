@@ -82,6 +82,12 @@ int LerString (char * str, int obrigatorio)
     return flag;
 }
 
+void LimpaBuffer ()
+{
+    char c;
+    while ((c = getchar()) != '\n' && c != EOF);
+}
+
 /**
  * Faz a leitura de um char
  * entrada nenhuma
@@ -94,6 +100,8 @@ char LerChar ()
     char buffer;
 
     scanf("%c", &buffer);
+    LimpaBuffer();
+
     return buffer;
 }
 
