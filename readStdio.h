@@ -34,6 +34,13 @@ int LerIntervaloInteiro (int numA, int numB);
  */
 int LerString (char * str, int obrigatorio);
 
+/**
+ * Limpa o buffer entrada do teclado até encontrar nova linha
+ * Entrada: nenhuma
+ * Returno: nenhum
+ * Pré-condição: nenhuma
+ * Pós-condição: nenhuma
+ */
 void LimpaBuffer ();
 
 /**

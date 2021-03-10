@@ -82,6 +82,13 @@ int LerString (char * str, int obrigatorio)
     return flag;
 }
 
+/**
+ * Limpa o buffer entrada do teclado até encontrar nova linha
+ * Entrada: nenhuma
+ * Returno: nenhum
+ * Pré-condição: nenhuma
+ * Pós-condição: nenhuma
+ */
 void LimpaBuffer ()
 {
     char c;
