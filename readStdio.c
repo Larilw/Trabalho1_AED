@@ -21,7 +21,7 @@ int LerInteiro ()
     char *final, buffer[TAM_MAX_STR];
     int inteiro;
 
-
+    // enquanto não ler um inteiro rejeita entrada
     while (fgets(buffer, sizeof(buffer), stdin)) {
         inteiro = strtol(buffer, &final, 10);
         if (final == buffer || *final != '\n') {
@@ -68,6 +68,7 @@ int LerString (char * str, int obrigatorio)
     int flag = 0;
 
     fgets (str, TAM_MAX_STR, stdin);
+    // string não pode estar vazia se obrigatorio == 1
     if ((strlen(str)-1) == 0 && obrigatorio == 1) {
         while ((strlen(str)-1) == 0) {
             printf("----------------------------------------------------------------------\n");

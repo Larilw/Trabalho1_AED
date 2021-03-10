@@ -242,10 +242,8 @@ void verificaRegistroVacinacao(ListaVacinas *listaVacina, ListaHabitantes *lista
             if(verificaVacinaConcluida(dados)){
 
                 // Veritfica se a vacina esta diponivel
-                PrintMessage("Entre com o nome da vacina:", 'e', 1, 0);
-
                 dadosVac = consultarVacina(listaVacina, vacina);
-                if(dadosVac == NULL){
+                if(dadosVac == NULL || verificaEstoqueVacina(dadosVac) == NULL){
                     PrintMessage("Sem Estoque da vacina.", 'e', 1, 1);
                 }
                 else {

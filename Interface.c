@@ -50,7 +50,6 @@
  */
 void MenuPrincipal(ListaHabitantes *listaHabitante, ListaVacinas *listaVacina, int *grupoPrioritario) {
     int seletor;
-    int encerraPrograma = 0;
 
     PrintMessage("Menu Principal", 'c', 1, 1);
     printf("Entre com o numero da operacao desejada\n\n");
@@ -207,7 +206,7 @@ void MenuConsultarHabitante(ListaHabitantes *listaHabitante, ListaVacinas *lista
 
     aux = consultarHabitante(cpf, listaHabitante);
     if (verificaHabitanteRegistrado(listaHabitante, aux, cpf)) {
-        PrintMessage("Habitante:", 'e', 1, 1);
+        PrintMessage("Habitante:", 'e', 1, 0);
         printf("CPF: %s\n", aux->cpf);
         printf("Nome: %s\n", aux->nome);
         printf("Prioridade: %d\n", aux->prioridade);
@@ -236,6 +235,7 @@ void MenuConsultarHabitante(ListaHabitantes *listaHabitante, ListaVacinas *lista
             MenuHabitantes(listaHabitante, listaVacina, grupoPrioritario);
     }
 }
+
 
 /**
  * Menu de remoção de habitantes da lista
@@ -551,11 +551,15 @@ void MenuRegistrarVacinacao (ListaHabitantes *listaHabitante, ListaVacinas *list
         printf("CPF: %s\n", auxHabitante->cpf);
         printf("Nome: %s\n", auxHabitante->nome);
         printf("Dose: %d\n", auxHabitante->dose);
-        printf("Vacina: %s\n", auxHabitante->tipo_vacina);
         printf("Grupo prioritario: %d\n", auxHabitante->prioridade);
+        if (auxHabitante->dose > 0) {
+            printf("Vacina: %s\n", auxHabitante->tipo_vacina);
+            printf("Data da Vacinação: %s\n", auxHabitante->data_vacinacao);
+        }
         if (!verificaVacinaConcluida(auxHabitante)){
             PrintMessage("Habitante ja recebeu as 2 doses da vacina.", 'e', 1, 0);
         }
+        PrintMessage("Entre com o nome da vacina:", 'e', 1, 0);
         LerString(vacina, 1);
         if (auxHabitante->dose == 1 && (strcmp(auxHabitante->tipo_vacina, vacina) != 0)) {
             PrintMessage("Vacina diferente da usada na primeira dose.", 'e', 1, 1);
